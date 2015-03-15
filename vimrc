@@ -10,8 +10,6 @@ set nocompatible
 " Don't show mode
 set noshowmode
 
-set nonumber
-
 " Enable file type detection and load plugin indent files
 filetype plugin on
 filetype indent on
@@ -41,7 +39,6 @@ Plugin 'int3/vim-extradite'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'pangloss/vim-javascript'
-Plugin 'rorymckinley/vim-rubyhash'
 Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
@@ -98,7 +95,7 @@ Plugin 'godlygeek/tabular'
 call vundle#end()
 
 " CtrlP Delete
-call ctrlp_bdelete#init()
+"call ctrlp_bdelete#init()
 " CtrlP Funky
 let g:ctrlp_extensions = ['funky']
 let g:ctrlp_funky_multi_buffers = 1
@@ -157,8 +154,8 @@ autocmd FileType css,scss set iskeyword=@,48-57,_,-,?,!,192-255
 "" Add the '-' as a keyword in erb files
 autocmd FileType eruby set iskeyword=@,48-57,_,192-255,$,-
 
-set background=dark
-colorscheme railscasts
+"set background=dark
+"colorscheme railscasts
 
 " Make those debugger statements painfully obvious
 au BufEnter *.rb syn match error contained "\<binding.pry\>"
@@ -169,6 +166,9 @@ syntax sync fromstart
 
 set hlsearch                    " highlight the search
 set ls=2                        " show a status line even if there's only one window
+
+" Press Enter to turn off highlighting and clear any message already displayed.
+:nnoremap <CR> :nohlsearch<cr>
 
 " Improve vim's scrolling speed
 set ttyfast
@@ -221,7 +221,7 @@ set backspace=indent,eol,start  " backspace through everything in insert mode
 
 " Searching
 set incsearch                   " incremental searching
-set ignorecase                  " searches are case insensitive...
+" set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 set scrolloff=0                 " keep a 5 line padding when moving the cursor
 
@@ -252,6 +252,9 @@ cnoreabbrev Q q
 " Expand %% to current directory
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%')<cr>
+
+" Spell check
+:hi SpellBad cterm=underline,bold ctermbg=none
 
 " Limit commit message width and check spelling
 autocmd Filetype gitcommit setlocal spell textwidth=72
@@ -404,7 +407,7 @@ endif
 " highlight DiffChange cterm=none ctermfg=217 ctermbg=bg gui=none guifg=fg guibg=#878700
 " highlight DiffText cterm=bold ctermfg=010 ctermbg=bg gui=none guifg=#00f00 guibg=#87d700
 
-highlight SignColumn term=standout ctermfg=242 ctermbg=bg guifg=#777777 guibg=bg
+"highlight SignColumn term=standout ctermfg=242 ctermbg=bg guifg=#777777 guibg=bg
 
 " Auto save contents of a buffer when you lose focus
 autocmd BufLeave,FocusLost * silent! update
@@ -423,3 +426,14 @@ endfunction
 
 " Tell vim to resize itself (especially useful with tmux splits)
 autocmd VimResized * :wincmd =
+
+set number
+set numberwidth=5
+
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+
+:nmap <C-N><C-N> :set invnumber<CR>
+
+" Fast saving and quitting
+map <C-W><C-W> :xa<cr>
